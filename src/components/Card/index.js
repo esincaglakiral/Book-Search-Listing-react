@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./index.css";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import BookSearchContext from "../../context/BookSearchContext";
+import {BsFillHeartFill} from "react-icons/bs"
+
+
 
 function Card({
   img,
@@ -13,6 +17,8 @@ function Card({
   publishDate,
   description,
 }) {
+  const context = useContext(BookSearchContext);
+
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
@@ -21,18 +27,23 @@ function Card({
       <div className="perspective">
         <div id="cover">
           <img
-            src={ img || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ6nBZmN2eqi1bPJmBSiyDqFdcW7WwWextqw&usqp=CAU" }
+            src={ img || "https://books.google.com.tr/googlebooks/images/no_cover_thumb.gif"} width="128px" height="199px"
           />
         </div>
       </div>
       <div className="buttons">
-        <a target="_blank" href={href}>
-          <Button className="bttnBody" >İncele</Button>
-        </a>
-        {/* <a href="#">Details</a> */}
         <Button className="bttnBody2" onClick={toggle}>
           Detay
         </Button>
+
+        <a target="_blank" href={href}>
+          <Button className="bttnBody" >İncele</Button>
+        </a>
+        <Button className="bttnBody3" onClick={() => context.setFavourites("add", title)}><span>
+          <BsFillHeartFill/>
+          </span></Button>
+        
+
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader id="modalHeader" toggle={toggle}>{title}</ModalHeader>
           <ModalBody id="modalBody">
